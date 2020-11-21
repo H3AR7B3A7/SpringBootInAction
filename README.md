@@ -1,7 +1,7 @@
 # Spring Boot
 After exploring [servlets and Jsp](https://github.com/H3AR7B3A7/ServletsAndJsp) in a Maven web application 
 and [Spring MVC](https://github.com/H3AR7B3A7/SpringMVC) in a custom Maven build with spring mvc dependencies, 
-let us go back to a Spring Boot application, set up with the initializr.  
+let us go back to a Spring Boot application set up with the initializr.  
 With a higher appreciation of what SpringBoot and the initializr do in the background for us, 
 we will have a closer look at different aspects of this rather simple application. 
 
