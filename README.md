@@ -12,5 +12,6 @@ In [spring courses](https://github.com/H3AR7B3A7/SpringCourses) and 'SpringServl
 [JavaConfig](https://github.com/H3AR7B3A7/SpringServletStackCode) we already saw some concepts of configuration and security. We will explore them further in this application.
 
 ## Configuration
-- Spring conditional configuration: Most of the Spring default configuration beans only get created when we don't provide any of our own. We can write our own conditions like this 
-in Spring by implementing the Condition interface.
+- **Spring conditional configuration:** Most of the Spring default configuration beans only get created when we don't provide any of our own. We can write our own conditions
+in Spring by implementing the Condition interface. There are also some standard annotations to choose from like: @ConditionalOnBean, @ConditionalOnMissingBean, ...  
+Check out some more examples [here](https://iamninad.com/conditional-bean-creation-in-spring-boot/).
