@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="${#locale.language}" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <title>Reading List</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+</head>
+<body>
+<h2>Your Reading List</h2>
+<div th:unless="${#lists.isEmpty(books)}">
+    <dl th:each="book : ${books}">
+        <dt class="bookHeadline">
+            <span th:text="${book.title}">Title</span> by
+            <span th:text="${book.author}">Author</span>
+            (ISBN: <span th:text="${book.isbn}">ISBN</span>)
+        </dt>
+        <dd class="bookDescription">
+            <span th:if="${book.description}"
+                  th:text="${book.description}">Description</span>
+            <span th:if="${book.description eq null}">
+                No description available</span>
+        </dd>
+    </dl>
+</div>
+<div th:if="${#lists.isEmpty(books)}">
+    <p>You have no books in your book list.</p>
+</div>
+<hr>
+<h3>Add a book</h3>
+<form method="post">
+    <label for="title">Title:
+        <input type="text" name="title" id="title" size="50">
+    </label><br>
+    <label for="author">Author:
+        <input type="text" name="author" id="author" size="50">
+    </label><br>
+    <label for="isbn">ISBN:
+        <input type="text" name="isbn" id="isbn" size="15">
+    </label><br>
+    <label for="description">Description: <br>
+        <textarea name="description" id="description" cols="80" rows="5"></textarea>
+    </label><br>
+    <input type="submit">
+</form>
+</body>
+</html>
