@@ -36,3 +36,14 @@ Application.properties (or application.yml) files can reside in these locations,
  
 A good rule is to use the generated file provided by Spring unless you want them to be overridden, or when you don't want to publish some sensitive information to GitHub through .gitignore.
 
+## Configure SSL/TLS certificate with keystore
+Command line example:
+
+    keytool -genkeypair -alias spring-https -keyalg RSA -keysize 2048 -keystore spring-https.jks -validity 365
+
+Converting jks to PKCS12 format:
+
+    keytool -importkeystore -srckeystore spring-https.jks -destkeystore spring-https.jks -deststoretype pkcs12
+    
+Service will now be served at https://localhost:8443/test
+While serving locally the browser will complain it is 'not safe', but that's nothing to worry about.
