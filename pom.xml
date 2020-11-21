@@ -10,9 +10,9 @@
     </parent>
     <groupId>be.dog.d.steven</groupId>
     <artifactId>reading-list</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.1</version>
     <name>reading-list</name>
-    <description>Demo project for Spring Boot</description>
+    <description>Spring Boot In Action</description>
 
     <properties>
         <java.version>15</java.version>
