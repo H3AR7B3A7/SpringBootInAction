@@ -47,3 +47,10 @@ Converting jks to PKCS12 format:
     
 Service will now be served at https://localhost:8443/test
 While serving locally the browser will complain it is 'not safe', but that's nothing to worry about.
+
+## Logging
+Logback is the standard provided by spring-boot-starter-logging. Other options are 'Log4j' or 'Log4j2'. We could exclude Logback and provide dependencies for them instead, 
+but there is usually no need to do so.  
+For full control over logging we could add a 'logback.xml'.
+[Documentation](http://logback.qos.ch/documentation.html)
+
