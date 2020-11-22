@@ -1,12 +1,11 @@
 package be.dog.d.steven.readinglist.security;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
@@ -14,8 +13,11 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    private ReaderDao readerDao;
+    private final ReaderDao readerDao;
+
+    public SecurityConfig(ReaderDao readerDao) {
+        this.readerDao = readerDao;
+    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -33,12 +35,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth
-                .userDetailsService(new UserDetailsService() {
-                    @Override
-                    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-                        return readerDao.getOne(username);
-                    }
-                });
+        auth.userDetailsService(myUserDetailsService());
+    }
+
+    @Bean
+    public UserDetailsService myUserDetailsService() {
+        return username -> readerDao.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("username :" + username));
     }
 }

@@ -16,7 +16,7 @@ import java.util.List;
 @RequestMapping("/")
 public class ReadingListController {
 
-    private ReadingListDao readingListDao;
+    private final ReadingListDao readingListDao;
 
     @Autowired
     public ReadingListController(ReadingListDao readingListDao) {

@@ -6,8 +6,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 
 @Entity
 public class Reader implements UserDetails {
@@ -52,7 +52,7 @@ public class Reader implements UserDetails {
     // UserDetails Methods (should fetch these from database too IRL)
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Arrays.asList(new SimpleGrantedAuthority("READER"));
+        return Collections.singletonList(new SimpleGrantedAuthority("ROLE_READER"));
     }
 
 
