@@ -1,10 +1,10 @@
 package be.dog.d.steven.readinglist.controller;
 
+import be.dog.d.steven.readinglist.configuration.AmazonProperties;
 import be.dog.d.steven.readinglist.dao.ReadingListDao;
 import be.dog.d.steven.readinglist.model.Book;
 import be.dog.d.steven.readinglist.security.Reader;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,19 +15,16 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/")
-@ConfigurationProperties(prefix="amazon")
 public class ReadingListController {
 
-    private String associateId;
     private final ReadingListDao readingListDao;
+    private final AmazonProperties amazonProperties;
 
     @Autowired
-    public ReadingListController(ReadingListDao readingListDao) {
+    public ReadingListController(ReadingListDao readingListDao,
+                                 AmazonProperties amazonProperties) {
         this.readingListDao = readingListDao;
-    }
-
-    public void setAssociateId(String associateId) {
-        this.associateId = associateId;
+        this.amazonProperties = amazonProperties;
     }
 
     @GetMapping
@@ -36,7 +33,7 @@ public class ReadingListController {
         if (readingList != null) {
             model.addAttribute("books", readingList);
             model.addAttribute("reader", reader);
-            model.addAttribute("amazonID", associateId);
+            model.addAttribute("amazonID", amazonProperties.getAssociateId());
         }
         return "readingList";
     }
@@ -47,5 +44,4 @@ public class ReadingListController {
         readingListDao.save(book);
         return "redirect:/";
     }
-
 }
