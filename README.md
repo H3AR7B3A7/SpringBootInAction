@@ -53,7 +53,7 @@ and providing a setter:
 
 Now we can easily see/change the value in application.properties with:
 
-    amazon.associateId=test
+    amazon.associateId=someAssociateID
 
 ## Configure SSL/TLS certificate with keystore
 Command line example:
