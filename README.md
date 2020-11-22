@@ -46,7 +46,7 @@ To externalize the configuration of our 'amazon associate id' we added this depe
     </dependency>
     
 This way we can keep our configurations in one place and easily change them later when necessary. 
-We wire the value in the controller by using the annotation @ConfigurationProperties(prefix="amazon") 
+We set the value in the controller by using the annotation @ConfigurationProperties(prefix="amazon") 
 and providing a setter:
 
     public void setAssociateId(String associateId) {this.associateId = associateId;}
@@ -54,6 +54,10 @@ and providing a setter:
 Now we can easily see/change the value in application.properties with:
 
     amazon.associateId=someAssociateID
+    
+### Capturing configuration in a bean
+Instead of annotating the controller and having the setter in there, we could just create a bean for that and then wire in the bean. 
+This way we can isolate the configuration related to Amazon from the controller.
 
 ## Configure SSL/TLS certificate with keystore
 Command line example:
