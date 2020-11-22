@@ -36,6 +36,25 @@ Application.properties (or application.yml) files can reside in these locations,
  
 A good rule is to use the generated file provided by Spring unless you want them to be overridden, or when you don't want to publish some sensitive information to GitHub through .gitignore.
 
+### Externalizing configuration
+To externalize the configuration of our 'amazon associate id' we added this dependency:
+
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-configuration-processor</artifactId>
+        <optional>true</optional>
+    </dependency>
+    
+This way we can keep our configurations in one place and easily change them later when necessary. 
+We wire the value in the controller by using the annotation @ConfigurationProperties(prefix="amazon") 
+and providing a setter:
+
+    public void setAssociateId(String associateId) {this.associateId = associateId;}
+
+Now we can easily see/change the value in application.properties with:
+
+    amazon.associateId=test
+
 ## Configure SSL/TLS certificate with keystore
 Command line example:
 
@@ -45,7 +64,7 @@ Converting jks to PKCS12 format:
 
     keytool -importkeystore -srckeystore spring-https.jks -destkeystore spring-https.jks -deststoretype pkcs12
     
-Service will now be served at https://localhost:8443/test
+Service will now be served at https://localhost:8443/
 While serving locally the browser will complain it is 'not safe', but that's nothing to worry about.
 
 ## Logging
@@ -54,3 +73,12 @@ but there is usually no need to do so.
 For full control over logging we could add a 'logback.xml'.
 [Documentation](http://logback.qos.ch/documentation.html)
 
+## Security
+Prior to Spring Security 5.0 the default PasswordEncoder was NoOpPasswordEncoder which required plain text passwords. 
+In Spring Security 5, the default is DelegatingPasswordEncoder, which required Password Storage Format.  
+
+We can still use the old way by adding a prefix to our password like this:
+
+    insert into Reader (username, password, fullname) values ('test', '{noop}test', 'test');
+
+Later when creating users with a form we will want to use a User Builder with default password encoder.
