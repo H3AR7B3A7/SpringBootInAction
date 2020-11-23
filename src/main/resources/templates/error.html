@@ -8,8 +8,9 @@
 </head>
 <h1>Oops!</h1><br>
 <div class="container">
-    <img id="sorry" src="/img/MissingPage.png" alt="sorry">
+    <img id="sorry" th:src="@{/img/MissingPage.png}" alt="sorry">
     <div id="sorry-msg">
+        <h3 th:text="${status}"></h3>
         <p>There seems to be a problem with the page you requested
             (<span th:text="${path}"></span>).</p>
         <p th:text="${'Details: ' + error}"></p>
