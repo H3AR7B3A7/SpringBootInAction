@@ -95,6 +95,15 @@ but there is usually no need to do so.
 For full control over logging we could add a 'logback.xml'.
 [Documentation](http://logback.qos.ch/documentation.html)
 
+## Custom error handling
+The default error handler that’s auto-configured by Spring Boot looks for a view
+named *'error'*. If it can’t find one, it uses its default whitelabel error view.
+
+This means we can just add a file *error.html* to easily create a custom error page.
+On this error page we can refer to the status, url path and the generated error with:  
+
+    ${status}, ${path} and ${error}
+
 ## Security
 Prior to Spring Security 5.0 the default PasswordEncoder was NoOpPasswordEncoder which required plain text passwords. 
 In Spring Security 5, the default is DelegatingPasswordEncoder, which required Password Storage Format.  
