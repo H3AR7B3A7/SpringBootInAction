@@ -38,6 +38,11 @@ label{
     align-items: center;
 }
 
+table {
+    margin-left: auto;
+    margin-right: auto;
+}
+
 #sorry {
     float: left;
     display: inline-block;
