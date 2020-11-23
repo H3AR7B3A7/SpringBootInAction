@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="${#locale.language}" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <title>Reading List</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+</head>
+<h1>Oops!</h1><br>
+<div class="container">
+    <img id="sorry" src="/img/MissingPage.png" alt="sorry">
+    <div id="sorry-msg">
+        <p>There seems to be a problem with the page you requested
+            (<span th:text="${path}"></span>).</p>
+        <p th:text="${'Details: ' + error}"></p>
+    </div>
+</div>
+</html>
