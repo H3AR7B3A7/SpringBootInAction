@@ -1,6 +1,22 @@
-body{
-    background-color: #cccccc;
-    font-family: Arial, sans-serif;
+@import url("http://fonts.googleapis.com/css2?family=Poppins:wght@200;400;600&display=swap");
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "Poppins", sans-serif;
+    margin: 0;
+    min-height: 100vh;
+    flex-direction: column;
+    background-color: lightblue;
+    color: darkblue;
+    text-align: center;
 }
 
 .bookHeadline{
@@ -14,4 +30,27 @@ body{
 
 label{
     font-weight: bold;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#sorry {
+    float: left;
+    display: inline-block;
+    width: 50%;
+}
+
+#sorry-msg {
+    float: left;
+    display: inline-block;
+    width: 50%;
+}
+
+.btn {
+    padding-left: 25px;
+    padding-right: 25px;
 }
