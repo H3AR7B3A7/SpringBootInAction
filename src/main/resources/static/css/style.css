@@ -45,6 +45,7 @@ label{
 }
 
 #sorry-msg {
+    padding: 3rem;
     float: left;
     display: inline-block;
     width: 50%;
