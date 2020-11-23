@@ -11,6 +11,13 @@ really have any business deciding everything for us.
 In [spring courses](https://github.com/H3AR7B3A7/SpringCourses) and 'SpringServletStack' for [XML](https://github.com/H3AR7B3A7/SpringServletStackXml) and 
 [JavaConfig](https://github.com/H3AR7B3A7/SpringServletStackCode) we already saw some concepts of configuration and security. We will explore them further in this application.
 
+### Setup
+To start off we created a project with the initializr including these dependencies:  
+- Web
+- Thymeleaf
+- Jpa  
+- H2 (we include H2, but switch out for MySQL later)
+
 ## Configuration
 What we need to understand about **Spring conditional configuration:** Most of the Spring default configuration beans only get created when we don't provide any of our own. We can write our own custom conditions
 in Spring by implementing the Condition interface. There are also some standard annotations to choose from like: **@ConditionalOnBean**, **@ConditionalOnMissingBean**, ...  
@@ -105,6 +112,13 @@ On this error page we can refer to the status, url path and the generated error 
     ${status}, ${path} and ${error}
 
 ## Security
+We add Spring security by simply adding the following dependency:
+
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-security</artifactId>
+    </dependency>
+
 Prior to Spring Security 5.0 the default PasswordEncoder was NoOpPasswordEncoder which required plain text passwords. 
 In Spring Security 5, the default is DelegatingPasswordEncoder, which required Password Storage Format.  
 
