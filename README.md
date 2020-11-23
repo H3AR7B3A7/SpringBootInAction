@@ -13,7 +13,7 @@ In [spring courses](https://github.com/H3AR7B3A7/SpringCourses) and 'SpringServl
 
 ## Configuration
 What we need to understand about **Spring conditional configuration:** Most of the Spring default configuration beans only get created when we don't provide any of our own. We can write our own custom conditions
-in Spring by implementing the Condition interface. There are also some standard annotations to choose from like: @ConditionalOnBean, @ConditionalOnMissingBean, ...  
+in Spring by implementing the Condition interface. There are also some standard annotations to choose from like: **@ConditionalOnBean**, **@ConditionalOnMissingBean**, ...  
 Check out some more examples [here](https://iamninad.com/conditional-bean-creation-in-spring-boot/).
 - **Overriding auto-configuration:** Because of these conditionals we can create our own configuration and Spring will automatically not create the default configuration beans.
 - **Configuration with properties:** We can also modify default behaviour of auto-configuration to some extent with properties. We can do this in different ways with descending precedence in:
@@ -25,7 +25,7 @@ Check out some more examples [here](https://iamninad.com/conditional-bean-creati
   (referenced when setting other properties, such as ${random.long})
   - An application.properties (or application.yml) file outside the application
   - An application.properties (or application.yml) packaged inside of the application
-  - Property sources specified by @PropertySource
+  - Property sources specified by **@PropertySource**
   - Default properties
   
 Application.properties (or application.yml) files can reside in these locations, also with descending precedence:
@@ -34,10 +34,12 @@ Application.properties (or application.yml) files can reside in these locations,
 - Internally, in the 'resources root' in a /config subdirectory
 - Internally, in the 'resources root' (Provided by Spring)
  
-A good rule is to use the generated file provided by Spring unless you want them to be overridden, or when you don't want to publish some sensitive information to GitHub through .gitignore.
+A good rule is to use the generated file provided by Spring unless you want them to be overridden, or when you don't want to publish some sensitive information to GitHub through .gitignore.  
+
+*Although using .yml can save us some work writing out property paths and can hold multiple profiles, I do not recommend using them, so they will not be covered in this document.*
 
 ### Externalizing configuration
-To externalize the configuration of our 'amazon associate id' we added this dependency:
+To externalize the configuration of our 'amazon associate id' we add this dependency:
 
     <dependency>
         <groupId>org.springframework.boot</groupId>
@@ -46,7 +48,7 @@ To externalize the configuration of our 'amazon associate id' we added this depe
     </dependency>
     
 This way we can keep our configurations in one place and easily change them later when necessary. 
-We set the value in the controller by using the annotation @ConfigurationProperties(prefix="amazon") 
+We set the value in the controller by using the annotation **@ConfigurationProperties(prefix="amazon")** 
 and providing a setter:
 
     public void setAssociateId(String associateId) {this.associateId = associateId;}
@@ -59,7 +61,23 @@ Now we can easily see/change the value in application.properties with:
 Instead of annotating the controller and having the setter in there, we could just create a bean for that and then wire in the bean. 
 This way we can isolate the configuration related to Amazon from the controller.
 
-## Configure SSL/TLS certificate with keystore
+## Configuring with profiles
+We can specify environments with annotation in our configuration classes with **@Profile("production")**. 
+This way we can choose a profile in applications.properties by specifying the property: 
+
+    spring.profiles.active=production
+
+### Profile specific properties files
+We can have profile specific properties files by using naming them using the pattern:  
+**application-{profile}.properties**  
+For instance, we can have different logging levels for different environments:  
+
+    logging.level.root=DEBUG / WARN / INFO 
+    
+In IntelliJ we can specify the active profiles under *'Edit configurations...'*.  
+We can still have a default properties file to hold properties that aren't profile specific when we specified active profiles.
+
+## Configuring SSL/TLS certificate with keystore
 Command line example:
 
     keytool -genkeypair -alias spring-https -keyalg RSA -keysize 2048 -keystore spring-https.jks -validity 365
