@@ -9,6 +9,7 @@
 	<body onload='document.f.username.focus();'>
 		<div id="loginForm">
 			<h3>Login With Username and Password</h3>
+			<br>
 			<div class="error" th:if="${param.error}">
 			  Incorrect username or password. Try again.
 			</div>
@@ -32,6 +33,7 @@
 						</td>
 					</tr>
 				</table>
+				<br>
 				<input class="btn" name="submit" type="submit" value="Login"/>
 			</form>
 		</div>
