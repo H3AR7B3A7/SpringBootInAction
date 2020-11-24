@@ -9,22 +9,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.util.logging.Logger;
 
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(classes=ReadingListApplication.class)
-@WebAppConfiguration
+@SpringBootTest
 public class MockMVCWebTests {
 
     @Autowired
@@ -64,7 +61,7 @@ public class MockMVCWebTests {
     }
 
     @Test
-    @WithUserDetails(value = "test")
+    @WithUserDetails(value = "test") // userDetailsServiceBeanName = "myUserDetailsService"
     public void homePage() throws Exception {
 
         Reader reader = new Reader();
