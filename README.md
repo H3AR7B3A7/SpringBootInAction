@@ -184,6 +184,12 @@ There is also a parameter *userDetailsServiceBeanName* with a default value of "
 We have to use **@WithUserDetails** in our application because we use our custom *'Reader'* class for authentication, 
 but when we use the default User class for authentication **@WithMockUser** is the easy option.
 
+    @Test
+    @WithMockUser(username="someName",
+                  password="optional",
+                  roles="READER")
+    public void someTest() throws Exception {...}
+
 ### Integration Testing
 To enable Spring integration testing we annotate the class with **@ExtendWith(SpringExtension.class)**  
 [ **@RunWith(SpringJUnit4ClassRunner.class)** or shortened **@RunWith(SpringRunner.class)** ]
