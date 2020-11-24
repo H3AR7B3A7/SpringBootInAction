@@ -1,14 +1,12 @@
 package be.dog.d.steven.readinglist;
 
-import be.dog.d.steven.readinglist.security.Reader;
+import be.dog.d.steven.readinglist.security.ReaderDao;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.test.context.support.WithUserDetails;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
@@ -20,19 +18,23 @@ import static org.springframework.security.test.web.servlet.setup.SecurityMockMv
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@ExtendWith(SpringExtension.class)
+//@ExtendWith(SpringExtension.class)
 @SpringBootTest
-public class MockMVCWebTests {
+public class MockMvcWebTests {
 
     @Autowired
     private WebApplicationContext context;
 
-    private static final Logger LOG = Logger.getLogger(MockMVCWebTests.class.getName());
+    @Autowired
+    private ReaderDao dao;
+
+    private static final Logger LOG = Logger.getLogger(MockMvcWebTests.class.getName());
     private MockMvc mockMvc;
 
     @BeforeEach
     void setMockMvc() {
         LOG.info("!!! Building mock MVC");
+
         mockMvc = MockMvcBuilders
                 .webAppContextSetup(context)
                 .apply(springSecurity())
@@ -43,31 +45,32 @@ public class MockMVCWebTests {
     @AfterEach
     void cleanUp(){
         LOG.info("!!! Ending test");
+
         System.out.println("Cleaning up...");
     }
 
     @Test
-    void test(){
+    void emptyTest(){
         LOG.info("!!! Test starting");
+
         System.out.println("Testing...");
     }
 
     @Test
-    public void security() throws Exception {
+    public void securityLoginRedirection() throws Exception {
+        LOG.info("!!! Testing login redirection");
+
         mockMvc.perform(get("/"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(header().string("Location",
                         "http://localhost/login"));
+        System.out.println("Redirected to login.");
     }
 
     @Test
     @WithUserDetails(value = "test") // userDetailsServiceBeanName = "myUserDetailsService"
-    public void homePage() throws Exception {
-
-        Reader reader = new Reader();
-        reader.setUsername("test");
-        reader.setPassword("test");
-        reader.setFullname("test");
+    public void homePageForExistingUser() throws Exception {
+        LOG.info("!!! Testing homepage for existing user");
 
         mockMvc.perform(get("/"))
                 .andExpect(status().isOk())
@@ -75,7 +78,7 @@ public class MockMVCWebTests {
                 .andExpect(model().attributeExists("books"))
                 .andExpect(model().attribute("books",
                         hasSize(3)));
+        System.out.println("Size matched expected");
     }
-
 
 }

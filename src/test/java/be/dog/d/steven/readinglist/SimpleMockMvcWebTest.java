@@ -14,14 +14,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 //@ExtendWith(SpringExtension.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-public class IntegrationTest {
+public class SimpleMockMvcWebTest {
 
     @Autowired
     private MockMvc mockMvc;
 
     @Test
     @WithUserDetails(value = "test") // userDetailsServiceBeanName = "myUserDetailsService"
-    public void homePage() throws Exception {
+    public void homePageForExistingUser() throws Exception {
 
         mockMvc.perform(get("/"))
                 .andExpect(status().isOk())
@@ -30,4 +30,5 @@ public class IntegrationTest {
                 .andExpect(model().attribute("books",
                         hasSize(3)));
     }
+
 }
