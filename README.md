@@ -1,4 +1,5 @@
 # Spring Boot
+## Preface
 After exploring [servlets and Jsp](https://github.com/H3AR7B3A7/ServletsAndJsp) in a Maven web application 
 and [Spring MVC](https://github.com/H3AR7B3A7/SpringMVC) in a custom Maven build with spring mvc dependencies, 
 let us go back to a Spring Boot application set up with the initializr.  
@@ -127,3 +128,66 @@ We can still use the old way by adding a prefix to our password like this:
     insert into Reader (username, password, fullname) values ('test', '{noop}test', 'test');
 
 Later when creating users with a form we will want to use a User Builder with default password encoder.
+
+Check [here](https://github.com/H3AR7B3A7/SpringCourses/tree/master/security) for a more advanced example of security.
+There we saw how to generate CSRF-tokens, use password encoders, create custom authorities and more...
+
+## Testing
+*I will be documenting testing mainly using JUnit 5 Jupiter. For reference, I will add the JUnit 4 variants of annotations 
+between square brackets. Be aware they can't always just be switched out, so you might have to check some documentation on their use.*
+
+Because Spring already provides us with the dependency *spring-boot-starter-test* our project already includes a lot of dependencies for testing purposes:
+- **JUnit:** The de-facto standard for unit testing Java applications
+- **Spring (Boot) Test:** Utilities and integration test support for Spring (Boot) applications
+- **AssertJ:** A fluent assertion library
+- **Hamcrest:** A library of matcher objects (also known as constraints or predicates)
+- **Mockito:** A Java mocking framework
+- **JSONassert:** An assertion library for JSON
+- **JsonPath:** XPath for JSON
+
+With the **@SpringBootTest** annotation, Spring Boot provides a convenient way to start up an application context to be used in a test.
+
+### Mock MVC
+To configure MockMVC we need a WebApplicationContext. We can wire this in and configure MockMVC ourselves like this:
+
+    @Autowired
+    private WebApplicationContext context;
+        
+    private MockMvc mockMvc;
+    
+    @BeforeEach
+    void setMockMvc() {
+        mockMvc = MockMvcBuilders
+                .webAppContextSetup(context)
+                .apply(springSecurity())
+                .build();
+    }
+    
+We can also accomplish this with an annotation **@AutoConfigureMockMvc**
+
+When we configure MockMVC ourselves however, we can choose to only setup the controllers we need:
+- standaloneSetup()
+- webAppContextSetup()
+
+### Testing with security
+Because we make use of Spring Security we need the following dependency:
+
+    <dependency>
+        <groupId>org.springframework.security</groupId>
+        <artifactId>spring-security-test</artifactId>
+        <scope>test</scope>
+    </dependency>
+
+Now we can simply annotate our test with **@WithUserDetails(value = "test")** to authenticate as the user named: *test*.
+There is also a parameter *userDetailsServiceBeanName* with a default value of "myUserDetailsService" hidden in this annotation.  
+
+We have to use **@WithUserDetails** in our application because we use our custom *'Reader'* class for authentication, 
+but when we use the default User class for authentication **@WithMockUser** is the easy option.
+
+### Integration Testing
+To enable Spring integration testing we annotate the class with **@ExtendWith(SpringExtension.class)**  
+[ **@RunWith(SpringJUnit4ClassRunner.class)** or shortened **@RunWith(SpringRunner.class)** ]
+
+
+- @ContextConfiguration
+- @SpringApplicationConfiguration
