@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -21,7 +22,7 @@ public class SimpleMockMvcWebTest {
 
     @Test
     @WithUserDetails(value = "test") // userDetailsServiceBeanName = "myUserDetailsService"
-    public void homePageForExistingUser() throws Exception {
+    void homePageForExistingUser() throws Exception {
 
         mockMvc.perform(get("/"))
                 .andExpect(status().isOk())
@@ -31,4 +32,11 @@ public class SimpleMockMvcWebTest {
                         hasSize(3)));
     }
 
+    @Test
+    @WithMockUser(value="unknown")
+    void rejectingUsersWithoutRoles() throws Exception {
+
+        mockMvc.perform(get("/"))
+                .andExpect(status().isForbidden());
+    }
 }

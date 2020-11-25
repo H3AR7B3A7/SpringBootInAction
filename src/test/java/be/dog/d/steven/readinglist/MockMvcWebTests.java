@@ -57,7 +57,7 @@ public class MockMvcWebTests {
     }
 
     @Test
-    public void securityLoginRedirection() throws Exception {
+    void securityLoginRedirection() throws Exception {
         LOG.info("!!! Testing login redirection");
 
         mockMvc.perform(get("/"))
@@ -69,7 +69,7 @@ public class MockMvcWebTests {
 
     @Test
     @WithUserDetails(value = "test") // userDetailsServiceBeanName = "myUserDetailsService"
-    public void homePageForExistingUser() throws Exception {
+    void homePageForExistingUser() throws Exception {
         LOG.info("!!! Testing homepage for existing user");
 
         mockMvc.perform(get("/"))
