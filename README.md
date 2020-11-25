@@ -132,7 +132,7 @@ Later when creating users with a form we will want to use a User Builder with de
 Check [here](https://github.com/H3AR7B3A7/SpringCourses/tree/master/security) for a more advanced example of security.
 There we saw how to generate CSRF-tokens, use password encoders, create custom authorities and more...
 
-## Testing
+## Testing Spring Boot applications
 *I will be documenting testing mainly using JUnit 5 Jupiter. For reference, I will add the JUnit 4 variants of annotations 
 between square brackets. Be aware they can't always just be switched out, so you might have to check some documentation on their use.*
 
@@ -144,8 +144,6 @@ Because Spring already provides us with the dependency *spring-boot-starter-test
 - **Mockito:** A Java mocking framework
 - **JSONassert:** An assertion library for JSON
 - **JsonPath:** XPath for JSON
-
-With the **@SpringBootTest** annotation, Spring Boot provides a convenient way to start up an application context to be used in a test.
 
 ### Mock MVC
 To configure MockMVC we need a WebApplicationContext. We can wire this in and configure MockMVC ourselves like this:
@@ -190,10 +188,21 @@ but when we use the default User class for authentication **@WithMockUser** is t
                   roles="READER")
     public void someTest() throws Exception {...}
 
-### Integration Testing
-To enable Spring integration testing we annotate the class with **@ExtendWith(SpringExtension.class)**  
-[ **@RunWith(SpringJUnit4ClassRunner.class)** or shortened **@RunWith(SpringRunner.class)** ]
+### Integration Test Environment
+With the **@SpringBootTest** annotation, Spring Boot provides a convenient way to start up an application context to be used in a test.  
+
+We can use the H2 database we used at the beginning of the project when we are running integration setting the scope to 'test':
+
+    <dependency>
+        <groupId>com.h2database</groupId>
+        <artifactId>h2</artifactId>
+        <scope>test</scope>
+    </dependency>
 
 
-- @ContextConfiguration
-- @SpringApplicationConfiguration
+To enable Spring support for integration testing we annotate the class with **@ExtendWith(SpringExtension.class)**  
+[ **@RunWith(SpringJUnit4ClassRunner.class)** or shortened **@RunWith(SpringRunner.class)** ]  
+
+As of Spring Boot 2.1, we no longer need to load the SpringExtension because it's included as a meta annotation in the Spring Boot test annotations like **@DataJpaTest**, **@WebMvcTest**, and **@SpringBootTest**.  
+
+I will be diving deeper into testing Spring Boot applications in one of my next projects...
