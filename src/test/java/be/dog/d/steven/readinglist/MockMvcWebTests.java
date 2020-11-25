@@ -1,6 +1,7 @@
 package be.dog.d.steven.readinglist;
 
-import be.dog.d.steven.readinglist.security.ReaderDao;
+import be.dog.d.steven.readinglist.dao.ReadingListDao;
+import be.dog.d.steven.readinglist.model.Book;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,15 +19,17 @@ import static org.springframework.security.test.web.servlet.setup.SecurityMockMv
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-//@ExtendWith(SpringExtension.class)
 @SpringBootTest
 public class MockMvcWebTests {
 
     @Autowired
     private WebApplicationContext context;
 
+//    @Autowired
+//    private ReaderDao dao; // Can't quite figure out how to add 'reader' with roles
+
     @Autowired
-    private ReaderDao dao;
+    private ReadingListDao readingListDao;
 
     private static final Logger LOG = Logger.getLogger(MockMvcWebTests.class.getName());
     private MockMvc mockMvc;
@@ -77,8 +80,32 @@ public class MockMvcWebTests {
                 .andExpect(view().name("readingList"))
                 .andExpect(model().attributeExists("books"))
                 .andExpect(model().attribute("books",
-                        hasSize(3)));
+                        hasSize(2)));
         System.out.println("Size matched expected");
     }
 
+    @Test
+    @WithUserDetails(value = "test") // userDetailsServiceBeanName = "myUserDetailsService"
+    void homePageAfterAddingBookForExistingUser() throws Exception {
+        LOG.info("!!! Testing homepage for existing user");
+
+        Book book = new Book();
+        book.setTitle("title");
+        book.setAuthor("author");
+        book.setReader("test");
+        book.setIsbn("B001");
+        book.setDescription("desc");
+
+        readingListDao.save(book);
+
+        mockMvc.perform(get("/"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("readingList"))
+                .andExpect(model().attributeExists("books"))
+                .andExpect(model().attribute("books",
+                        hasSize(3)));
+        System.out.println("Size matched expected");
+
+        readingListDao.delete(book);
+    }
 }
